@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Blake Sample Paintings</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Acrylic landscape paintings by Blake Sample. Originals and prints.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..500,100&family=Figtree:wght@400;500&display=swap">
+<style>
+/* Layout: paintings hung on a pale meadow-green wall. Generous space, soft canvas shadows, one quiet moss accent. */
+:root {
+  --wall: #f1f2ec;
+  --ink: #273026;
+  --muted: #6c7468;
+  --hush: #dfe2d8;
+  --moss: #4f6346;
+  --canvas-shadow: 0 1px 2px rgb(39 48 38 / .10), 0 14px 30px -14px rgb(39 48 38 / .38);
+  --display: "Fraunces", Georgia, "Times New Roman", serif;
+  --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --wall: #171b17; --ink: #e5e8df; --muted: #9ba396; --hush: #2b312a; --moss: #adc09f;
+    --canvas-shadow: 0 1px 2px rgb(0 0 0 / .4), 0 16px 34px -14px rgb(0 0 0 / .75);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --wall: #171b17; --ink: #e5e8df; --muted: #9ba396; --hush: #2b312a; --moss: #adc09f;
+  --canvas-shadow: 0 1px 2px rgb(0 0 0 / .4), 0 16px 34px -14px rgb(0 0 0 / .75);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--wall); color: var(--ink); font: 400 1rem/1.65 var(--body); }
+img { max-width: 100%; height: auto; display: block; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+.panel { scroll-margin-top: 96px; }
+.panel + .panel { margin-top: clamp(110px, 14vw, 180px); }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--moss); outline-offset: 4px; }
+.wrap {
+  max-width: 1140px; margin: 0 auto;
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 {
+  font-family: var(--display); font-weight: 300; margin: 0; text-wrap: balance;
+  font-variation-settings: "SOFT" 100;
+}
+p { margin: 0; }
+
+/* Header */
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 10; background: var(--wall);
+}
+header.site {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--wall) 94%, transparent); backdrop-filter: blur(6px);
+}
+header.site .wrap {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  padding-block: 32px;
+}
+.brand {
+  font-family: var(--display); font-weight: 400; font-size: 1.3rem; text-decoration: none;
+  font-variation-settings: "SOFT" 100;
+}
+nav { display: flex; gap: 28px; }
+nav a { text-decoration: none; font-size: .95rem; color: var(--muted); padding-block: 4px; border-bottom: 1px solid transparent; }
+nav a:hover { color: var(--ink); }
+nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--moss); }
+
+main { padding-block: 40px 120px; }
+
+/* Paintings hang with a soft shadow, like canvases on a wall */
+.canvas { all: unset; cursor: zoom-in; display: block; }
+.canvas img { box-shadow: var(--canvas-shadow); transition: transform .4s ease; }
+.canvas:hover img { transform: translateY(-3px); }
+.canvas:focus-visible { outline: 2px solid var(--moss); outline-offset: 6px; }
+
+/* Home */
+.hero {
+  display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px);
+  align-items: end;
+}
+.hero-text { display: grid; gap: 20px; padding-bottom: 8px; min-width: 0; }
+.hero h1 { font-size: clamp(2.8rem, 6vw, 4.6rem); line-height: 1; letter-spacing: -.015em; }
+.hero p { color: var(--muted); font-size: 1.08rem; max-width: 26em; }
+.quiet-link { font-size: .95rem; color: var(--moss); text-decoration: none; justify-self: start; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+.quiet-link:hover { color: var(--ink); }
+
+.section-title {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap;
+  margin-bottom: 44px;
+}
+.section-title h2 { font-size: clamp(1.6rem, 3vw, 2rem); }
+
+/* Masonry columns let portrait and landscape canvases pack naturally */
+.grid { columns: 3 280px; column-gap: clamp(28px, 4vw, 48px); }
+.piece { break-inside: avoid; margin: 0 0 clamp(44px, 5vw, 64px); display: grid; gap: 16px; }
+.caption { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.caption h3 { font-size: 1.12rem; min-width: 0; }
+.caption .size { font-size: .85rem; color: var(--muted); white-space: nowrap; }
+.sale { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: .92rem; margin-top: -8px; }
+.sale .price { color: var(--muted); font-variant-numeric: tabular-nums; }
+.print-sizes { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: .88rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.print-sizes li { display: flex; justify-content: space-between; gap: 12px; }
+.sale a { color: var(--moss); text-decoration: none; white-space: nowrap; }
+.sale a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.sold-tag { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+/* Shop tabs */
+.shop-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; margin-bottom: 48px; }
+.shop-head h2 { font-size: clamp(2.2rem, 5vw, 3.2rem); line-height: 1.05; }
+.shop-title { display: grid; gap: 14px; justify-items: start; }
+.tabs { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--hush); }
+.tabs button {
+  font: 500 .92rem/1 var(--body); color: var(--muted); background: transparent; border: 0; cursor: pointer;
+  padding: 10px 20px; border-radius: 999px;
+}
+.tabs button[aria-selected="true"] { background: var(--wall); color: var(--ink); box-shadow: 0 1px 2px rgb(39 48 38 / .12); }
+.empty { color: var(--muted); }
+
+/* About */
+.about { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(32px, 6vw, 88px); align-items: start; }
+.about figure { margin: 0; }
+.about figure img { box-shadow: var(--canvas-shadow); }
+.about figcaption { margin-top: 14px; font-size: .85rem; color: var(--muted); }
+.about-text { display: grid; gap: 20px; min-width: 0; max-width: 34em; }
+.about-text h2 { font-size: clamp(2.2rem, 5vw, 3.2rem); line-height: 1.05; margin-bottom: 8px; }
+.about-text p { font-size: 1.05rem; }
+.contact { display: grid; gap: 8px; padding-top: 24px; margin-top: 8px; border-top: 1px solid var(--hush); }
+.contact p { color: var(--muted); font-size: .95rem; }
+.email-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.email { font-family: var(--display); font-size: 1.3rem; user-select: all; word-break: break-all; text-decoration: none; font-variation-settings: "SOFT" 100; }
+.copy { font: 500 .8rem/1 var(--body); padding: 7px 12px; border-radius: 999px; border: 1px solid var(--hush); background: transparent; color: var(--muted); cursor: pointer; }
+.copy:hover { color: var(--ink); border-color: var(--muted); }
+
+footer .wrap { padding-block: 36px 48px; font-size: .85rem; color: var(--muted); }
+
+/* Lightbox */
+dialog {
+  border: 0; padding: 0; background: var(--wall); color: var(--ink);
+  width: min(1080px, calc(100vw - 32px)); max-height: calc(100vh - 32px); border-radius: 6px;
+}
+dialog::backdrop { background: rgb(15 19 15 / .82); }
+.lb { display: grid; grid-template-columns: minmax(0, 1fr) 280px; }
+.lb-img { display: grid; place-items: center; padding: clamp(20px, 4vw, 44px); min-height: 0; }
+.lb-img img { max-height: calc(100vh - 120px); width: auto; object-fit: contain; box-shadow: var(--canvas-shadow); }
+.lb-info { padding: 52px 28px 32px 8px; display: grid; gap: 14px; align-content: start; }
+.lb-info h2 { font-size: 1.6rem; line-height: 1.15; }
+.lb-info .size { color: var(--muted); font-size: .9rem; }
+.lb-info .sale { margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--hush); }
+.lb-close {
+  position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%;
+  border: 0; background: var(--hush); color: var(--ink); cursor: pointer; font-size: 1.15rem; line-height: 1;
+}
+
+@media (max-width: 820px) {
+  .hero, .about { grid-template-columns: 1fr; }
+  .hero figure { order: -1; }
+  .lb { grid-template-columns: 1fr; }
+  .lb-img img { max-height: 58vh; }
+  .lb-info { padding: 0 24px 28px; }
+  main { padding-block: 16px 88px; }
+  header.site .wrap { padding-block: 18px; }
+  .panel { scroll-margin-top: 72px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<header class="site" id="top">
+  <div class="wrap">
+    <a class="brand" href="#top" data-artist-name>Blake Sample</a>
+    <nav aria-label="Main">
+      <a href="#top">Work</a>
+      <a href="#shop">Shop</a>
+      <a href="#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HOME -->
+  <section class="panel" id="work" data-nav="top">
+    <div class="hero">
+      <div class="hero-text">
+        <h1 data-artist-name>Blake Sample</h1>
+        <p>Acrylic landscapes inspired by nature, light, and color.</p>
+        <a class="quiet-link" href="#shop">Shop the paintings ↓</a>
+      </div>
+      <figure id="hero-figure" style="margin:0"></figure>
+    </div>
+  </section>
+
+  <!-- SHOP -->
+  <section class="panel" id="shop" data-nav="shop">
+    <div class="shop-head">
+      <div class="shop-title">
+        <h2>Shop</h2>
+        <a class="quiet-link" id="all-prints" href="#" target="_blank" rel="noopener" hidden>See all prints on Fine Art America</a>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Shop">
+        <button type="button" role="tab" id="tab-prints" data-tab="prints" aria-selected="true" aria-controls="shop-grid">Prints</button>
+        <button type="button" role="tab" id="tab-originals" data-tab="originals" aria-selected="false" aria-controls="shop-grid">Originals</button>
+      </div>
+    </div>
+    <div class="grid" id="shop-grid" role="tabpanel"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="panel" id="about" data-nav="about">
+    <div class="about">
+      <figure id="about-figure"></figure>
+      <div class="about-text">
+        <h2>Hi, I'm <span data-artist-name>Blake Sample</span>.</h2>
+        <p>I paint landscapes in acrylic, mostly on small canvases. I'm drawn to scenes with interesting light, color, and atmosphere, whether I'm painting water, a cloudy afternoon, or the last bit of light before sunset.</p>
+        <p>My paintings are built from lots of short, blocky brushstrokes. Up close they read as patches of color, and from across the room they settle into sky, trees and water. I enjoy playing with color and seeing how much I can capture with just a few shapes and brushstrokes.</p>
+        <div class="contact">
+          <p>For originals, commissions or questions:</p>
+          <div class="email-row">
+            <a class="email" data-email href="#"></a>
+            <button class="copy" type="button" id="copy-email">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">© <span id="year"></span> <span data-artist-name>Blake Sample</span></div>
+</footer>
+
+<dialog id="lightbox" aria-label="Painting detail">
+  <button class="lb-close" type="button" id="lb-close" aria-label="Close">×</button>
+  <div class="lb">
+    <div class="lb-img"><img id="lb-img" alt=""></div>
+    <div class="lb-info" id="lb-info"></div>
+  </div>
+</dialog>
+
+<script>
+/* =====================================================================
+   EDIT YOUR SITE HERE
+   ---------------------------------------------------------------------
+   ARTIST_NAME  – shown in the header, home page, about page and footer.
+   EMAIL        – where "Inquire" and contact links go.
+   PRINT_SHOP   – link to your print-on-demand store's main page.
+   For each painting:
+     original   – a price in dollars if the original is for sale,
+                  'sold' if it has sold, or null if it's not for sale.
+                  (Only for-sale and sold originals appear in the
+                  Originals tab.)
+     prints     – true to offer prints, false for none. Sizes and
+                  prices come from PRINT_SIZES below.
+     printUrl   – that painting's Fine Art America page. Used for both
+                  "Buy print" and "Buy original".
+                  Leave '' to fall back to PRINT_SHOP, or to an email
+                  if PRINT_SHOP is empty too.
+   ===================================================================== */
+const ARTIST_NAME = 'Blake Sample';
+const EMAIL = 'blake.sample04@gmail.com';
+const PRINT_SHOP = '';
+const PRINT_PROFILE = 'https://fineartamerica.com/profiles/blake-sample';
+const HERO = 'mystic-lake-bridge';
+
+/* Print sizes and prices, by the size of the original painting.
+   Every size keeps the painting's shape (5:7 or 3:4), so nothing is trimmed. */
+const PRINT_SIZES = {
+  '5 × 7 in':   [['5 × 7 in', 30], ['10 × 14 in', 60], ['15 × 21 in', 95]],
+  '12 × 16 in': [['9 × 12 in', 65], ['12 × 16 in', 90], ['18 × 24 in', 140]],
+};
+
+const PAINTINGS = [
+  { id: 'valley-oaks',          title: 'Valley Oaks',               size: '12 × 16 in', original: null,   prints: true, printUrl: '' },
+  { id: 'alpenglow',            title: 'Mountain Landscape',        size: '5 × 7 in',   original: 110,    prints: true, printUrl: '' },
+  { id: 'white-church',         title: 'White Church at Dusk',      size: '5 × 7 in',   original: 110,    prints: true, printUrl: '' },
+  { id: 'melting-hour',         title: 'Melting Hour (after Dalí)', size: '12 × 16 in', original: null,   prints: true, printUrl: '' },
+  { id: 'canyon-trail',         title: 'Canyon Trail',              size: '12 × 16 in', original: 'sold', prints: true, printUrl: '' },
+  { id: 'pink-evening',         title: 'Pink Evening',              size: '5 × 7 in',   original: 110,    prints: true, printUrl: '' },
+  { id: 'misty-sunrise',        title: 'Misty Sunrise',             size: '5 × 7 in',   original: 110,    prints: true, printUrl: 'https://fineartamerica.com/featured/misty-sunrise-blake-sample.html' },
+  { id: 'mystic-lake-bridge',   title: 'Mystic Lake Bridge',        size: '12 × 16 in', original: null,   prints: true, printUrl: '' },
+  { id: 'summer-clouds',        title: 'Summer Clouds',             size: '5 × 7 in',   original: 110,    prints: true, printUrl: '' },
+  { id: 'cloudbank',            title: 'Cloudbank',                 size: '5 × 7 in',   original: 110,    prints: true, printUrl: 'https://fineartamerica.com/featured/cloudbank-blake-sample.html' },
+  { id: 'overlook',             title: 'Overlook',                  size: '5 × 7 in',   original: 110,    prints: true, printUrl: '' },
+  { id: 'windswept',            title: 'Windswept',                 size: '5 × 7 in',   original: 110,    prints: true, printUrl: 'https://fineartamerica.com/featured/windswept-blake-sample.html' },
+  { id: 'butte-golden-hour',    title: 'Golden Hour',               size: '5 × 7 in',   original: 110,    prints: true, printUrl: '' },
+  { id: 'river-at-sundown',     title: 'River at Sundown',          size: '5 × 7 in',   original: 110,    prints: true, printUrl: 'https://fineartamerica.com/featured/river-at-sundown-blake-sample.html' },
+  { id: 'mesas',                title: 'Mesas',                     size: '5 × 7 in',   original: 110,    prints: true, printUrl: '' },
+  { id: 'last-light',           title: 'Last Light Over the Hills', size: '5 × 7 in',   original: 110,    prints: true, printUrl: 'https://fineartamerica.com/featured/last-light-over-the-hills-blake-sample.html' },
+  { id: 'between-two-trees',    title: 'Between Two Trees',         size: '5 × 7 in',   original: 110,    prints: true, printUrl: '' },
+  { id: 'hillside-clouds',      title: 'Hillside Clouds',           size: '5 × 7 in',   original: 110,    prints: true, printUrl: '' },
+  { id: 'marsh-at-dusk',        title: 'Marsh at Dusk',             size: '5 × 7 in',   original: 110,    prints: true, printUrl: '' },
+  { id: 'lights-on',            title: 'Lights On (after Magritte)',size: '5 × 7 in',   original: 110,    prints: true, printUrl: '' },
+];
+/* ===================================================================== */
+
+const MEDIUM = 'acrylic on canvas';
+const byId = Object.fromEntries(PAINTINGS.map(p => [p.id, p]));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const img = (p, sm = true) => `images/${p.id}${sm ? '-sm' : ''}.jpg`;
+const mailto = subject => `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}`;
+
+function printLink(p) {
+  if (p.printUrl) return `<a href="${esc(p.printUrl)}" target="_blank" rel="noopener">Buy print</a>`;
+  if (PRINT_SHOP) return `<a href="${esc(PRINT_SHOP)}" target="_blank" rel="noopener">Buy print</a>`;
+  return `<a href="${mailto(`Print of "${p.title}"`)}">Ask about prints</a>`;
+}
+const printSizes = p => (p.prints && PRINT_SIZES[p.size]) || [];
+function printLine(p) {
+  const sizes = printSizes(p);
+  return sizes.length ? `<div class="sale"><span class="price">Prints from $${sizes[0][1]}</span>${printLink(p)}</div>` : '';
+}
+function printTable(p) {
+  const sizes = printSizes(p);
+  return sizes.length ? `<ul class="print-sizes">${sizes.map(([sz, pr]) =>
+    `<li><span>${sz}</span><span>$${pr}</span></li>`).join('')}</ul>` : '';
+}
+/* Originals link to the Fine Art America listing when there is one, otherwise email. */
+function originalLink(p) {
+  return p.printUrl
+    ? `<a href="${esc(p.printUrl)}" target="_blank" rel="noopener">Buy original</a>`
+    : `<a href="${mailto(`Original: "${p.title}"`)}">Inquire</a>`;
+}
+function originalLine(p) {
+  if (p.original === 'sold') return `<div class="sale"><span class="sold-tag">Sold</span></div>`;
+  if (typeof p.original === 'number')
+    return `<div class="sale"><span class="price">Original · $${p.original}</span>${originalLink(p)}</div>`;
+  return '';
+}
+
+function canvas(p, sm = true, lazy = true) {
+  return `<button class="canvas" type="button" data-open="${p.id}" aria-label="View ${esc(p.title)} larger">
+    <img src="${img(p, sm)}" alt="${esc(p.title)}, ${MEDIUM}"${lazy ? ' loading="lazy"' : ''}>
+  </button>`;
+}
+function caption(p) {
+  return `<div class="caption"><h3>${esc(p.title)}</h3><span class="size">${p.size}</span></div>`;
+}
+
+function render() {
+  document.querySelectorAll('[data-artist-name]').forEach(el => el.textContent = ARTIST_NAME);
+  document.querySelectorAll('[data-email]').forEach(el => { el.textContent = EMAIL; el.href = `mailto:${EMAIL}`; });
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  document.getElementById('hero-figure').innerHTML = canvas(byId[HERO], false, false);
+
+  const about = byId['canyon-trail'];
+  document.getElementById('about-figure').innerHTML =
+    `<img src="${img(about, false)}" alt="${esc(about.title)}, ${MEDIUM}" loading="lazy">
+     <figcaption>${esc(about.title)}</figcaption>`;
+
+  const allPrints = document.getElementById('all-prints');
+  if (PRINT_PROFILE) { allPrints.href = PRINT_PROFILE; allPrints.hidden = false; }
+
+  renderShop('prints');
+}
+
+function renderShop(tab) {
+  const list = tab === 'prints'
+    ? PAINTINGS.filter(p => printSizes(p).length)
+    : PAINTINGS.filter(p => p.original != null)
+        .sort((a, b) => (a.original === 'sold') - (b.original === 'sold'));
+  document.getElementById('shop-grid').innerHTML = list.length
+    ? list.map(p => `<article class="piece">${canvas(p)}${caption(p)}${tab === 'prints' ? printLine(p) : originalLine(p)}</article>`).join('')
+    : `<p class="empty">Nothing here right now.</p>`;
+}
+
+document.querySelector('.tabs').addEventListener('click', e => {
+  const b = e.target.closest('button[data-tab]'); if (!b) return;
+  document.querySelectorAll('.tabs button').forEach(x => x.setAttribute('aria-selected', String(x === b)));
+  renderShop(b.dataset.tab);
+});
+
+/* Lightbox */
+const dlg = document.getElementById('lightbox');
+function openPiece(id) {
+  const p = byId[id]; if (!p) return;
+  const lbImg = document.getElementById('lb-img');
+  lbImg.src = img(p, false); lbImg.alt = `${p.title}, ${MEDIUM}`;
+  document.getElementById('lb-info').innerHTML =
+    `<h2>${esc(p.title)}</h2><p class="size">${p.size}, ${MEDIUM}</p>${originalLine(p)}${printLine(p)}${printTable(p)}`;
+  if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+}
+document.addEventListener('click', e => { const t = e.target.closest('[data-open]'); if (t) openPiece(t.dataset.open); });
+document.getElementById('lb-close').addEventListener('click', () => dlg.close());
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+
+/* Copy email */
+document.getElementById('copy-email').addEventListener('click', async e => {
+  const btn = e.currentTarget;
+  try { await navigator.clipboard.writeText(EMAIL); btn.textContent = 'Copied'; }
+  catch { const r = document.createRange(); r.selectNodeContents(document.querySelector('.email')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected'; }
+  setTimeout(() => btn.textContent = 'Copy', 1600);
+});
+
+/* Highlight the nav link for the section in view */
+const navLinks = [...document.querySelectorAll('nav a')];
+const setCurrent = key => navLinks.forEach(a =>
+  a.getAttribute('href') === '#' + key ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current'));
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) setCurrent(en.target.dataset.nav); });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  document.querySelectorAll('.panel').forEach(sec => io.observe(sec));
+}
+setCurrent('top');
+
+render();
+</script>
+</body>
+</html>

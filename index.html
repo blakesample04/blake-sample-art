@@ -173,8 +173,23 @@ dialog::backdrop { background: rgb(15 19 15 / .82); }
   main { padding-block: 16px 88px; }
   header.site .wrap { padding-block: 18px; }
   .panel { scroll-margin-top: 72px; }
+  .panel + .panel { margin-top: 80px; }
 }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }
+/* Motion: the opening fades up on load; sections and paintings rise gently into view.
+   Only switched on by script (js-reveal), so everything stays visible without it. */
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.hero-text { animation: rise .9s cubic-bezier(.2,.7,.2,1) .15s both; }
+.hero figure { animation: rise 1.1s cubic-bezier(.2,.7,.2,1) both; }
+.js-reveal .reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);
+}
+.js-reveal .reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+  html { scroll-behavior: auto; }
+  .js-reveal .reveal { opacity: 1; transform: none; }
+}
 </style>
 </head>
 <body>
@@ -206,7 +221,7 @@ dialog::backdrop { background: rgb(15 19 15 / .82); }
 
   <!-- SHOP -->
   <section class="panel" id="shop" data-nav="shop">
-    <div class="shop-head">
+    <div class="shop-head reveal">
       <div class="shop-title">
         <h2>Shop</h2>
         <a class="quiet-link" id="all-prints" href="#" target="_blank" rel="noopener" hidden>See all prints on Fine Art America</a>
@@ -222,8 +237,8 @@ dialog::backdrop { background: rgb(15 19 15 / .82); }
   <!-- ABOUT -->
   <section class="panel" id="about" data-nav="about">
     <div class="about">
-      <figure id="about-figure"></figure>
-      <div class="about-text">
+      <figure id="about-figure" class="reveal"></figure>
+      <div class="about-text reveal">
         <h2>Hi, I'm <span data-artist-name>Blake Sample</span>.</h2>
         <p>I paint landscapes in acrylic, mostly on small canvases. I'm drawn to scenes with interesting light, color, and atmosphere, whether I'm painting water, a cloudy afternoon, or the last bit of light before sunset.</p>
         <p>My paintings are built from lots of short, blocky brushstrokes. Up close they read as patches of color, and from across the room they settle into sky, trees and water. I enjoy playing with color and seeing how much I can capture with just a few shapes and brushstrokes.</p>
@@ -375,8 +390,9 @@ function renderShop(tab) {
     : PAINTINGS.filter(p => p.original != null)
         .sort((a, b) => (a.original === 'sold') - (b.original === 'sold'));
   document.getElementById('shop-grid').innerHTML = list.length
-    ? list.map(p => `<article class="piece">${canvas(p)}${caption(p)}${tab === 'prints' ? printLine(p) : originalLine(p)}</article>`).join('')
+    ? list.map(p => `<article class="piece reveal">${canvas(p)}${caption(p)}${tab === 'prints' ? printLine(p) : originalLine(p)}</article>`).join('')
     : `<p class="empty">Nothing here right now.</p>`;
+  observeReveal();
 }
 
 document.querySelector('.tabs').addEventListener('click', e => {
@@ -418,6 +434,17 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.panel').forEach(sec => io.observe(sec));
 }
 setCurrent('top');
+
+/* Rise-in on scroll */
+const revealIO = ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches)
+  ? new IntersectionObserver(entries => entries.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('in'); revealIO.unobserve(en.target); }
+    }), { rootMargin: '0px 0px -6% 0px', threshold: 0.04 })
+  : null;
+if (revealIO) document.documentElement.classList.add('js-reveal');
+function observeReveal() {
+  if (revealIO) document.querySelectorAll('.reveal:not(.in)').forEach(el => revealIO.observe(el));
+}
 
 render();
 </script>

@@ -428,7 +428,7 @@ function renderHoliday() {
     `<article class="piece reveal">${canvas(p)}${caption(p)}<p class="example-note">Example piece. Prints of this one are available.</p>${printLine(p)}</article>`).join('');
   const ig = `https://www.instagram.com/${INSTAGRAM}/`;
   document.getElementById('preorder').innerHTML =
-    `<p class="preorder-price">Original · $${PREORDER_PRICE}</p>
+    `<p class="preorder-price">Original · $${PREORDER_PRICE} · Ships by December 18</p>
      <a class="btn-preorder" href="${ig}" target="_blank" rel="noopener">DM me to preorder</a>
      <p class="preorder-alt">@${esc(INSTAGRAM)} on Instagram, or email <a href="${mailto('Highland cow preorder')}">${esc(EMAIL)}</a></p>`;
 }

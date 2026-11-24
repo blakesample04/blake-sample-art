@@ -112,6 +112,7 @@ main { padding-block: 40px 120px; }
 .caption { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .caption h3 { font-size: 1.12rem; min-width: 0; }
 .caption .size { font-size: .85rem; color: var(--muted); white-space: nowrap; }
+.limited { font-size: .72rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--moss); margin-bottom: -8px; }
 .sale { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: .92rem; margin-top: -8px; }
 .sale .price { color: var(--muted); font-variant-numeric: tabular-nums; }
 .print-sizes { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: .88rem; color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -282,6 +283,7 @@ dialog::backdrop { background: rgb(15 19 15 / .82); }
                   'sold' if it has sold, or null if it's not for sale.
                   (Only for-sale and sold originals appear in the
                   Originals tab.)
+     limited    – true to label it "Limited collection" and list it first.
      prints     – true to offer prints, false for none. Sizes and
                   prices come from PRINT_SIZES below.
      printUrl   – that painting's Fine Art America page. Used for both
@@ -300,9 +302,11 @@ const HERO = 'mystic-lake-bridge';
 const PRINT_SIZES = {
   '5 × 7 in':   [['5 × 7 in', 30], ['10 × 14 in', 60], ['15 × 21 in', 95]],
   '12 × 16 in': [['9 × 12 in', 65], ['12 × 16 in', 90], ['18 × 24 in', 140]],
+  '16 × 20 in': [['8 × 10 in', 45], ['16 × 20 in', 110], ['24 × 30 in', 175]],
 };
 
 const PAINTINGS = [
+  { id: 'highland-cow',         title: 'Highland Cow Portrait',     size: '16 × 20 in', original: 200,    prints: true, limited: true, printUrl: 'https://fineartamerica.com/featured/highland-cow-portrait-blake-sample.html' },
   { id: 'valley-oaks',          title: 'Valley Oaks',               size: '12 × 16 in', original: null,   prints: true, printUrl: 'https://fineartamerica.com/featured/valley-oaks-blake-sample.html' },
   { id: 'alpenglow',            title: 'Mountain Landscape',        size: '5 × 7 in',   original: 110,    prints: true, printUrl: 'https://fineartamerica.com/featured/mountain-landscape-blake-sample.html' },
   { id: 'white-church',         title: 'White Church at Dusk',      size: '5 × 7 in',   original: 110,    prints: true, printUrl: 'https://fineartamerica.com/featured/white-church-at-dusk-blake-sample.html' },
@@ -366,7 +370,8 @@ function canvas(p, sm = true, lazy = true) {
   </button>`;
 }
 function caption(p) {
-  return `<div class="caption"><h3>${esc(p.title)}</h3><span class="size">${p.size}</span></div>`;
+  const tag = p.limited ? `<p class="limited">Limited collection</p>` : '';
+  return `${tag}<div class="caption"><h3>${esc(p.title)}</h3><span class="size">${p.size}</span></div>`;
 }
 
 function render() {
@@ -392,6 +397,7 @@ function renderShop(tab) {
     ? PAINTINGS.filter(p => printSizes(p).length)
     : PAINTINGS.filter(p => p.original != null)
         .sort((a, b) => (a.original === 'sold') - (b.original === 'sold'));
+  list.sort((a, b) => !!b.limited - !!a.limited);
   document.getElementById('shop-grid').innerHTML = list.length
     ? list.map(p => `<article class="piece reveal">${canvas(p)}${caption(p)}${tab === 'prints' ? printLine(p) : originalLine(p)}</article>`).join('')
     : `<p class="empty">Nothing here right now.</p>`;
@@ -411,7 +417,7 @@ function openPiece(id) {
   const lbImg = document.getElementById('lb-img');
   lbImg.src = img(p, false); lbImg.alt = `${p.title}, ${MEDIUM}`;
   document.getElementById('lb-info').innerHTML =
-    `<h2>${esc(p.title)}</h2><p class="size">${p.size}, ${MEDIUM}</p>${originalLine(p)}${printLine(p)}${printTable(p)}`;
+    `${p.limited ? '<p class="limited">Limited collection</p>' : ''}<h2>${esc(p.title)}</h2><p class="size">${p.size}, ${MEDIUM}</p>${originalLine(p)}${printLine(p)}${printTable(p)}`;
   if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
 }
 document.addEventListener('click', e => { const t = e.target.closest('[data-open]'); if (t) openPiece(t.dataset.open); });

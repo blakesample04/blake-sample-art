@@ -245,7 +245,7 @@ dialog::backdrop { background: rgb(15 19 15 / .82); }
       <div class="collection-head">
         <p class="limited">Limited · Holiday 2026</p>
         <h2>Holiday Collection</h2>
-        <p>Hand-painted Highland cow portraits on 16&nbsp;×&nbsp;20&nbsp;in canvas. Each one is painted to order, so yours will be one of a kind.</p>
+        <p>Highland cow portraits, hand painted in The Woodlands, Texas, on 16&nbsp;×&nbsp;20&nbsp;in canvas. Each one is painted to order, so yours will be one of a kind.</p>
         <div class="preorder" id="preorder"></div>
       </div>
       <div class="grid" id="holiday-grid"></div>
@@ -430,6 +430,7 @@ function renderHoliday() {
   document.getElementById('preorder').innerHTML =
     `<p class="preorder-price">Original · $${PREORDER_PRICE} · Order by December 10 to receive before Christmas</p>
      <a class="btn-preorder" href="${ig}" target="_blank" rel="noopener">DM me to preorder</a>
+     <p class="preorder-alt">Free local pickup in The Woodlands, or shipping available.</p>
      <p class="preorder-alt">@${esc(INSTAGRAM)} on Instagram, or email <a href="${mailto('Highland cow preorder')}">${esc(EMAIL)}</a></p>`;
 }
 

@@ -117,7 +117,18 @@ main { padding-block: 40px 120px; }
 .collection { padding-bottom: clamp(48px, 7vw, 80px); margin-bottom: clamp(48px, 7vw, 80px); border-bottom: 1px solid var(--hush); }
 .collection-head { display: grid; gap: 10px; max-width: 34em; margin-bottom: 40px; }
 .collection-head h2 { font-size: clamp(2rem, 4.5vw, 2.8rem); line-height: 1.05; }
-.collection-head p:last-child { color: var(--muted); }
+.collection-head > p:not(.limited) { color: var(--muted); }
+.preorder { display: grid; gap: 10px; justify-items: start; margin-top: 10px; }
+.preorder-price { font-variant-numeric: tabular-nums; color: var(--ink); }
+.btn-preorder {
+  display: inline-flex; align-items: center; justify-content: center; text-decoration: none;
+  font: 500 .95rem/1 var(--body); padding: 13px 22px; border-radius: 999px;
+  background: var(--moss); color: var(--wall);
+}
+.btn-preorder:hover { background: var(--ink); }
+.preorder-alt { font-size: .85rem; color: var(--muted); }
+.preorder-alt a { color: var(--moss); }
+.example-note { font-size: .85rem; color: var(--muted); margin-top: -8px; }
 .sale { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: .92rem; margin-top: -8px; }
 .sale .price { color: var(--muted); font-variant-numeric: tabular-nums; }
 .print-sizes { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: .88rem; color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -234,7 +245,8 @@ dialog::backdrop { background: rgb(15 19 15 / .82); }
       <div class="collection-head">
         <p class="limited">Limited · Holiday 2026</p>
         <h2>Holiday Collection</h2>
-        <p>Hand-painted Highland cow portraits on 16&nbsp;×&nbsp;20&nbsp;in canvas. Each one is a one-of-a-kind original.</p>
+        <p>Hand-painted Highland cow portraits on 16&nbsp;×&nbsp;20&nbsp;in canvas. Each one is painted to order, so yours will be one of a kind.</p>
+        <div class="preorder" id="preorder"></div>
       </div>
       <div class="grid" id="holiday-grid"></div>
     </div>
@@ -310,6 +322,8 @@ const ARTIST_NAME = 'Blake Sample';
 const EMAIL = 'blake.sample04@gmail.com';
 const PRINT_SHOP = '';
 const PRINT_PROFILE = 'https://fineartamerica.com/profiles/blake-sample';
+const INSTAGRAM = 'blakessample';   // preorders are taken by Instagram DM
+const PREORDER_PRICE = 200;
 const HERO = 'mystic-lake-bridge';
 
 /* Print sizes and prices, by the size of the original painting.
@@ -321,7 +335,7 @@ const PRINT_SIZES = {
 };
 
 const PAINTINGS = [
-  { id: 'highland-cow',         title: 'Highland Cow Portrait',     size: '16 × 20 in', original: 200,    prints: true, holiday: true, printUrl: 'https://fineartamerica.com/featured/highland-cow-portrait-blake-sample.html' },
+  { id: 'highland-cow',         title: 'Highland Cow Portrait',     size: '16 × 20 in', original: null,   prints: true, holiday: true, printUrl: 'https://fineartamerica.com/featured/highland-cow-portrait-blake-sample.html' },
   { id: 'valley-oaks',          title: 'Valley Oaks',               size: '12 × 16 in', original: null,   prints: true, printUrl: 'https://fineartamerica.com/featured/valley-oaks-blake-sample.html' },
   { id: 'alpenglow',            title: 'Mountain Landscape',        size: '5 × 7 in',   original: 110,    prints: true, printUrl: 'https://fineartamerica.com/featured/mountain-landscape-blake-sample.html' },
   { id: 'white-church',         title: 'White Church at Dusk',      size: '5 × 7 in',   original: 110,    prints: true, printUrl: 'https://fineartamerica.com/featured/white-church-at-dusk-blake-sample.html' },
@@ -408,11 +422,15 @@ function render() {
 }
 
 function renderHoliday() {
-  const items = PAINTINGS.filter(p => p.holiday)
-    .sort((a, b) => (a.original === 'sold') - (b.original === 'sold'));
+  const items = PAINTINGS.filter(p => p.holiday);
   document.getElementById('holiday').hidden = !items.length;
   document.getElementById('holiday-grid').innerHTML = items.map(p =>
-    `<article class="piece reveal">${canvas(p)}${caption(p)}${originalLine(p)}${printLine(p)}</article>`).join('');
+    `<article class="piece reveal">${canvas(p)}${caption(p)}<p class="example-note">Example piece. Prints of this one are available.</p>${printLine(p)}</article>`).join('');
+  const ig = `https://www.instagram.com/${INSTAGRAM}/`;
+  document.getElementById('preorder').innerHTML =
+    `<p class="preorder-price">Original · $${PREORDER_PRICE}</p>
+     <a class="btn-preorder" href="${ig}" target="_blank" rel="noopener">DM me to preorder</a>
+     <p class="preorder-alt">@${esc(INSTAGRAM)} on Instagram, or email <a href="${mailto('Highland cow preorder')}">${esc(EMAIL)}</a></p>`;
 }
 
 function renderShop(tab) {
@@ -440,7 +458,7 @@ function openPiece(id) {
   const lbImg = document.getElementById('lb-img');
   lbImg.src = img(p, false); lbImg.alt = `${p.title}, ${MEDIUM}`;
   document.getElementById('lb-info').innerHTML =
-    `${p.holiday ? '<p class="limited">Holiday Collection · one of a kind</p>' : ''}<h2>${esc(p.title)}</h2><p class="size">${p.size}, ${MEDIUM}</p>${originalLine(p)}${printLine(p)}${printTable(p)}`;
+    `${p.holiday ? '<p class="limited">Holiday Collection · example</p>' : ''}<h2>${esc(p.title)}</h2><p class="size">${p.size}, ${MEDIUM}</p>${p.holiday ? `<div class="sale"><span class="price">Custom original · $${PREORDER_PRICE}</span><a href="https://www.instagram.com/${INSTAGRAM}/" target="_blank" rel="noopener">DM to preorder</a></div>` : originalLine(p)}${printLine(p)}${printTable(p)}`;
   if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
 }
 document.addEventListener('click', e => { const t = e.target.closest('[data-open]'); if (t) openPiece(t.dataset.open); });

@@ -127,6 +127,10 @@ main { padding-block: 40px 120px; }
 }
 .btn-preorder:hover { background: var(--ink); }
 .preorder-alt { font-size: .85rem; color: var(--muted); }
+.sold-out {
+  display: inline-flex; font: 500 .8rem/1 var(--body); letter-spacing: .12em; text-transform: uppercase;
+  padding: 11px 18px; border-radius: 999px; border: 1px solid var(--muted); color: var(--muted);
+}
 .preorder-alt a { color: var(--moss); }
 .example-note { font-size: .85rem; color: var(--muted); margin-top: -8px; }
 .sale { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: .92rem; margin-top: -8px; }
@@ -324,6 +328,7 @@ const PRINT_SHOP = '';
 const PRINT_PROFILE = 'https://fineartamerica.com/profiles/blake-sample';
 const INSTAGRAM = 'blakessample';   // preorders are taken by Instagram DM
 const PREORDER_PRICE = 125;
+const SOLD_OUT = true;   // holiday cow preorders: set to false to reopen
 const HERO = 'mystic-lake-bridge';
 
 /* Print sizes and prices, by the size of the original painting.
@@ -428,7 +433,10 @@ function renderHoliday() {
     `<article class="piece reveal">${canvas(p)}${caption(p)}<p class="example-note">Example piece. Prints of this one are available.</p>${printLine(p)}</article>`).join('');
   const ig = `https://www.instagram.com/${INSTAGRAM}/`;
   document.getElementById('preorder').innerHTML =
-    `<p class="preorder-price">Original · $${PREORDER_PRICE} · Order by December 10 to receive before Christmas</p>
+    SOLD_OUT
+    ? `<span class="sold-out">Sold out</span>
+     <p class="preorder-alt">Thank you to everyone who ordered! Follow <a href="${ig}" target="_blank" rel="noopener">@${esc(INSTAGRAM)}</a> on Instagram to hear about the next collection.</p>`
+    : `<p class="preorder-price">Original · $${PREORDER_PRICE} · Order by December 10 to receive before Christmas</p>
      <a class="btn-preorder" href="${ig}" target="_blank" rel="noopener">DM me to preorder</a>
      <p class="preorder-alt">Free local pickup in The Woodlands, or shipping available.</p>
      <p class="preorder-alt">@${esc(INSTAGRAM)} on Instagram, or email <a href="${mailto('Highland cow preorder')}">${esc(EMAIL)}</a></p>`;
@@ -459,7 +467,7 @@ function openPiece(id) {
   const lbImg = document.getElementById('lb-img');
   lbImg.src = img(p, false); lbImg.alt = `${p.title}, ${MEDIUM}`;
   document.getElementById('lb-info').innerHTML =
-    `${p.holiday ? '<p class="limited">Holiday Collection · example</p>' : ''}<h2>${esc(p.title)}</h2><p class="size">${p.size}, ${MEDIUM}</p>${p.holiday ? `<div class="sale"><span class="price">Custom original · $${PREORDER_PRICE}</span><a href="https://www.instagram.com/${INSTAGRAM}/" target="_blank" rel="noopener">DM to preorder</a></div>` : originalLine(p)}${printLine(p)}${printTable(p)}`;
+    `${p.holiday ? '<p class="limited">Holiday Collection · example</p>' : ''}<h2>${esc(p.title)}</h2><p class="size">${p.size}, ${MEDIUM}</p>${p.holiday ? (SOLD_OUT ? `<div class="sale"><span class="sold-tag">Custom originals sold out</span></div>` : `<div class="sale"><span class="price">Custom original · $${PREORDER_PRICE}</span><a href="https://www.instagram.com/${INSTAGRAM}/" target="_blank" rel="noopener">DM to preorder</a></div>`) : originalLine(p)}${printLine(p)}${printTable(p)}`;
   if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
 }
 document.addEventListener('click', e => { const t = e.target.closest('[data-open]'); if (t) openPiece(t.dataset.open); });
